@@ -19,30 +19,8 @@ jobs:
     strategy:
       matrix:
         package_target:
-          - almalinux8-aarch64
-          - almalinux8-ppc64le
-          - almalinux8-x86_64
-          - almalinux9-aarch64
-          - almalinux9-ppc64le
-          - almalinux9-x86_64
-          - bionic-ppc64el
-          - bookworm-amd64
-          - bookworm-arm64
-          - bookworm-i386
-          - bookworm-ppc64el
-          - buster-ppc64el
-          - bullseye-amd64
-          - bullseye-arm64
-          - bullseye-i386
-          - bullseye-ppc64el
-          - fedora37-aarch64
-          - fedora37-x86_64
-          - focal-ppc64el
-          - jammy-amd64
-          - jammy-arm64
-          - jammy-ppc64el
-          - raspberrypi.bookworm-armhf
-          - raspberrypi.bullseye-armhf
+          - centos7-aarch64
+          - centos7-x86_64
       fail-fast: false
     steps:
       - name: configure docker
@@ -60,8 +38,13 @@ jobs:
           path: wkhtmltopdf
           submodules: true
           ref: ${{ github.event.inputs.wkhtmltopdf_ref }}
+      - name: patches
+        run: >
+          cd wkhtmltopdf/qt &&
+          git apply ../../packaging/patches/build_arm64.patch && 
+          cd ../../
       - name: build
-        run: cd packaging && python3 ./build package-docker --clean --iteration ${{ github.event.inputs.packaging_iteration }} ${{ matrix.package_target }} ../wkhtmltopdf
+        run: cd packaging && python3 ./build package-docker --clean --iteration 1 ${{ matrix.package_target }} ../wkhtmltopdf
       - uses: softprops/action-gh-release@v0.1.14
         with:
           name: ${{ github.event.inputs.packaging_release }}

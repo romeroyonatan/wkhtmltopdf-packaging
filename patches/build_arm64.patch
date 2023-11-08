@@ -1,0 +1,36 @@
+From aa1c876e724e0443d21124ef699634c2a55230d9 Mon Sep 17 00:00:00 2001
+From: Shaun Oleson <soleson@lia.org>
+Date: Wed, 27 May 2020 15:55:37 -0400
+Subject: [PATCH] Adding support for compiling against AARCH64 architecture.
+
+---
+ src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h b/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
+index 841acc8420f..9818ecffa43 100644
+--- a/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
++++ b/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
+@@ -240,6 +240,12 @@
+ #define WTF_CPU_X86_64 1
+ #endif
+ 
++/* CPU(AARCH64) - AArch64 */
++#if defined(__aarch64__)
++#define WTF_CPU_AARCH64 1
++#endif
++
++
+ /* CPU(ARM) - ARM, any version*/
+ #if   defined(arm) \
+     || defined(__arm__) \
+@@ -1007,7 +1013,8 @@
+     || CPU(SPARC64) \
+     || CPU(S390X) \
+     || CPU(PPC64) \
+-    || CPU(MIPS64)
++    || CPU(MIPS64) \
++    || CPU(AARCH64)
+ #define WTF_USE_JSVALUE64 1
+ #else
+ #define WTF_USE_JSVALUE32_64 1
