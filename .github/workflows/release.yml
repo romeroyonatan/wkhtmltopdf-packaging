@@ -19,8 +19,8 @@ jobs:
     strategy:
       matrix:
         package_target:
-          - centos7-aarch64
-          - centos7-x86_64
+          - bookworm-amd64
+          - bookworm-arm64
       fail-fast: false
     steps:
       - name: configure docker
